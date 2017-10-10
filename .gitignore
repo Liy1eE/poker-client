@@ -1,7 +1,13 @@
 Library
 Temp
 
+github_client.sln
+Assembly-CSharp.csproj
+Assembly-CSharp-Editor.csproj
+
 .idea/
+.vs/
+obj/
 
 Assets/Runtime/NGUI
 
