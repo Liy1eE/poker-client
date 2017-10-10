@@ -1,6 +1,15 @@
 Library
 Temp
-Assets/Runtime/NGUI
+
 .idea/
+
+Assets/Runtime/NGUI
+
 Assets/game_mj
 Assets/game_mj.meta
+
+Assets/_custom/ignore
+Assets/_custom/ignore.meta
+
+Assets/Lobby
+Assets/Lobby.meta
