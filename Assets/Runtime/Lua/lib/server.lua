@@ -24,6 +24,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 --]]
 
+local msg_dict = nil
+local function get_msg_name(msg_value)
+	if not msg_dict then
+		msg_dict = {}
+		for i, v in pairs(require "data.msg") do
+			msg_dict[v] = i
+		end
+		for i, v in pairs(require "game_msg") do
+			msg_dict[v] = i
+		end
+	end
+	return msg_dict[msg_value]
+end
+
 local msg = require "data.msg"
 local show_dialog = require "dialog"
 local function msg_request( server, key )
@@ -54,7 +68,7 @@ do
 	local halt
 	local on_data
 	local wait_data
-	
+
 	local listen_tbl = {}
 	local function init_recv()
 		buf = ""
@@ -74,23 +88,24 @@ do
 			end
 		end)
 	end
-	
+
 	server.dispatch = function(result)
 		local len = table.maxn(result)
 		local t = result[1]
-		
-		LLOG("on result: 0x%08x, len: %d, dump: %s, pack: %s", result[1], len, table.dump(result), table.dump({unpack(result, 2, len)}))
-		
+
+		LLOG("【↓】%s, %s", get_msg_name(t), table.dump({unpack(result, 2, len)}))
+
 		if halt then
 			recv_co = coroutine.running()
+			print("【suspend】")
 			coroutine.yield()
 		end
-		
+
 		if handle_sleep then
 			sync(LuaTimer.Add)((handle_sleep - os.time())*1000)
 			handle_sleep = nil
 		end
-		
+
 		local co = wait_tbl[t]
 		if co then
 			wait_tbl[t] = nil
@@ -113,7 +128,7 @@ do
 			on_data()
 		end
 	end
-	
+
 	SocketManager.onError = function( errno )
 		LERR("errno: %s", errno)
 		server.close()
@@ -121,18 +136,18 @@ do
 			UnityEngine.SceneManagement.SceneManager.LoadScene(0)
 		end)
 	end
-	
+
 	function server.sleep(sec)
 		handle_sleep = os.time() + sec/1000
 	end
-	
+
 	function server.halt(v)
 		halt = v
-		if not v then
+		if not v and recv_co then
 			coroutine.resume(recv_co)
 		end
 	end
-	
+
 	function server.close()
 		init_recv()
 
@@ -173,11 +188,11 @@ do
 
 	function server.send(wait, t, ... )
 		local msg_data = table.dump({t, ...}) .. "\r\n"
-		
+
 		SocketManager.send(Slua.ToBytes(msg_data))
 
-		LLOG("send: 0x%08x, %s", t, msg_data)
-		
+		LLOG("【↑】%s, %s, wait:%s", get_msg_name(t), table.dump({...}), wait)
+
 		if wait == false then
 			return
 		end
