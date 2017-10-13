@@ -61,7 +61,7 @@ return function(parent, data, distance)
     local ok = UI.Child(info_trans, "ok/" .. distance)
     local not_ok = UI.Child(info_trans, "not_ok/" .. distance)
     
-    local eff_voice_output = UI.Child(info_trans, "voiceOutput")
+    --local eff_voice_output = UI.Child(info_trans, "voiceOutput")
     local function show_eff_voice_output(v, is_text)
         eff_tween_rot.enabled = v
         eff_tween_scale.enabled = v
@@ -74,9 +74,9 @@ return function(parent, data, distance)
         
         if not is_text then
             if v then
-                UI.Active(eff_voice_output, not v)
+                --UI.Active(eff_voice_output, not v)
             end
-            UI.Active(eff_voice_output, v)
+            --UI.Active(eff_voice_output, v)
         end        
     end
 
