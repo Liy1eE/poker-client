@@ -38,7 +38,6 @@ add_package(IsLobby and "Lobby" or "Simple")
 
 add_package(MainFloder)
 add_package("_custom/ignore")
-package.path = package.path .. ";" .. CWD  .. "UI/?.lua"
 
 local game_cfg = require "game_cfg"
 
