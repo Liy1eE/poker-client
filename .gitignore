@@ -1,22 +1,22 @@
-# unity自动生成
+# unity auto gen
 Library
 Temp
 
-# visual studio相关
+# visual studio gen
 obj/
 github_client.sln
 Assembly-CSharp.csproj
 Assembly-CSharp-Editor.csproj
 
-# 编辑器配置文件夹
+# editor cfg
 .idea/
 .vs/
 
-# 自定义测试
+# custom
 Assets/_custom/ignore
 Assets/_custom/ignore.meta
 
-# 游戏相关依赖
+# depend
 Assets/Runtime/NGUI
 
 Assets/game_mj
@@ -28,6 +28,6 @@ Assets/Lobby.meta
 Assets/UI
 Assets/UI.meta
 
-# 电脑测试包
+# test
 mj_Data/
 mj.exe
