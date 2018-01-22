@@ -42,7 +42,7 @@ add_package("_custom/ignore")
 local game_cfg = require "game_cfg"
 
 pcall(function()
-    local ui_cfg = require "UI/ui_cfg"
+    local ui_cfg = require "Base_UI/ui_cfg"
     for k, v in pairs(ui_cfg) do
     	if game_cfg[k] == nil then
         	game_cfg[k] = v
