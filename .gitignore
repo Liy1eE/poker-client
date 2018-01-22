@@ -25,8 +25,11 @@ Assets/game_mj.meta
 Assets/Lobby
 Assets/Lobby.meta
 
-Assets/UI
-Assets/UI.meta
+Assets/Lobby_UI
+Assets/Lobby_UI.meta
+
+Assets/Base_UI
+Assets/Base_UI.meta
 
 # test
 mj_Data/
