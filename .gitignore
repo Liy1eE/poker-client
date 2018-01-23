@@ -12,12 +12,11 @@ Assembly-CSharp-Editor.csproj
 .idea/
 .vs/
 
-# custom
-Assets/_custom/ignore
-Assets/_custom/ignore.meta
-
 # depend
 Assets/Runtime/NGUI
+
+Assets/Custom
+Assets/Custom.meta
 
 Assets/game_mj
 Assets/game_mj.meta
