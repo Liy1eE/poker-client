@@ -43,14 +43,14 @@ return function(player_data)
 
     local do_enter_game
     local function enter_room(room_id)
-        local room_data, visitor_id = server:enter(room_id)
-        room_data.visitor_id = visitor_id
-
+        local room_data, is_visit = server:enter(room_id)
         local error = ENTER_ERROR[room_data]
         if error then
             show_hint(error)
             return false
         end
+
+        room_data.is_visit = is_visit
 
         UI.Active(transform, false)
         do_enter_game(room_data)
@@ -59,12 +59,17 @@ return function(player_data)
 
     local function create_room(game_name, money_type, num, ...)
         local room_data = server:create(game_name, money_type, num, ...)
+
         local error = CREATE_ERROR[room_data]
         if error then
             show_hint(error)
             return false
         end
-
+        
+        if room_data.can_visit_enter then
+            room_data.is_visit = true
+        end
+        
         UI.Active(transform, false)
         do_enter_game(room_data)
         return true
@@ -79,6 +84,24 @@ return function(player_data)
     end)
 
     game.init(transform, enter_room, create_room)
+    game.wait_enter = function()
+        local co = coroutine.running()
+        server.listen(msg.ENTER, function(room_data, is_visit)
+            if type(room_data) == 'table' then
+                room_data.is_visit = is_visit
+                coroutine.resume(co, room_data)
+                return
+            end
+
+            local error = CREATE_ERROR[room_data]
+            if error then
+                show_hint(error)
+                coroutine.resume(co)
+                return
+            end
+        end)
+        return coroutine.yield()
+    end
 
     return function(func)
         UI.Active(transform, true)

@@ -70,6 +70,7 @@ do
 	local wait_data
 
 	local listen_tbl = {}
+	local msg_tbl = {}
 	local function init_recv()
 		buf = ""
 		wait_data = true
@@ -83,7 +84,12 @@ do
 				else
 					local msg_data = buf:sub(1, start_pos - 1)
 					buf = buf:sub(end_pos + 1)
-					server.dispatch(table.undump(msg_data))
+					local result = table.undump(msg_data)
+					if result[1] < 0x0010 or not halt then
+						server.dispatch(result)
+					else
+						table.insert(msg_tbl, result)
+					end
 				end
 			end
 		end)
@@ -92,20 +98,8 @@ do
 	server.dispatch = function(result)
 		local len = table.maxn(result)
 		local t = result[1]
-
 		LLOG("【↓】%s, %s", get_msg_name(t), table.dump({unpack(result, 2, len)}))
-
-		if halt then
-			recv_co = coroutine.running()
-			print("【suspend】")
-			coroutine.yield()
-		end
-
-		if handle_sleep then
-			sync(LuaTimer.Add)((handle_sleep - os.time())*1000)
-			handle_sleep = nil
-		end
-
+		
 		local co = wait_tbl[t]
 		if co then
 			wait_tbl[t] = nil
@@ -138,13 +132,25 @@ do
 	end
 
 	function server.sleep(sec)
-		handle_sleep = os.time() + sec/1000
+		server.halt(true)
+		LuaTimer.Add(sec, function()
+			server.halt()
+		end)
 	end
 
 	function server.halt(v)
 		halt = v
-		if not v and recv_co then
-			coroutine.resume(recv_co)
+
+		if v then
+			return
+		end
+		
+		while not halt do
+			local result = table.remove(msg_tbl, 1)
+			if not result then
+				break
+			end
+			server.dispatch(result)
 		end
 	end
 
