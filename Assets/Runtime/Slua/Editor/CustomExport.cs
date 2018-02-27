@@ -38,9 +38,10 @@ namespace SLua
             add(typeof(SocketManager), null);
 			add (typeof(Util), null);
 			add (typeof(BehaviourEvent), null);
-            
+
             // add(typeof(CopyAndroid), null);
             add(typeof(Dictionary<string, string>), "DictStrStr");
+            add(typeof(Ionic.Zlib.ZlibStream), null);
 
             // add(typeof(System.Func<int>), null);
             // add(typeof(System.Action<int, string>), null);
@@ -48,7 +49,7 @@ namespace SLua
             // add(typeof(List<int>), "ListInt");
             // add(typeof(Dictionary<int, string>), "DictIntStr");
             // add(typeof(string), "String");
-            
+
             // add your custom class here
             // add( type, typename)
             // type is what you want to export

@@ -9,6 +9,7 @@ namespace SLua {
 				Lua_Util.reg,
 				Lua_BehaviourEvent.reg,
 				Lua_System_Collections_Generic_Dictionary_2_string_string.reg,
+				Lua_Ionic_Zlib_ZlibStream.reg,
 			};
 			return list;
 		}
