@@ -1,26 +1,19 @@
-# unity auto gen
+# unity auto
 Library
 Temp
 
-# visual studio gen
+# visual studio
 obj/
 github_client.sln
 Assembly-CSharp.csproj
 Assembly-CSharp-Editor.csproj
+*.user
 
 # editor cfg
 .idea/
 .vs/
 
 # depend
-Assets/Runtime/NGUI
-
-Assets/Custom
-Assets/Custom.meta
-
-Assets/game_mj
-Assets/game_mj.meta
-
 Assets/Lobby
 Assets/Lobby.meta
 
@@ -33,6 +26,20 @@ Assets/Lobby_UI.meta
 Assets/Base_UI
 Assets/Base_UI.meta
 
+Assets/Custom
+Assets/Custom.meta
+
+Assets/game_mj
+Assets/game_mj.meta
+
+Assets/group
+Assets/group.meta
+
+Assets/hnqp
+Assets/hnqp.meta
+
 # test
 mj_Data/
 mj.exe
+
+# other
