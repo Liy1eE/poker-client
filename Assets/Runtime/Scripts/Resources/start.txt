@@ -52,6 +52,9 @@ pcall(function()
     end
 end)
 
+game_cfg.ALL_GAME = {"mj"}
+game_cfg.ID = 5
+
 for _, v in ipairs(game_cfg.ALL_GAME or {}) do
 	package.loaded[v .. ".game_msg"] = require("game_" .. v .. "/Lua/game_msg")
 	package.loaded[v .. ".game_cfg"] = require("game_" .. v .. "/Lua/game_cfg")
