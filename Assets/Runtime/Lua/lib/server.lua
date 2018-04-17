@@ -98,13 +98,14 @@ do
 	server.dispatch = function(result)
 		local len = table.maxn(result)
 		local t = result[1]
+
 		LLOG("【↓】%s, %s", get_msg_name(t), table.dump({unpack(result, 2, len)}))
 		
-		local co = wait_tbl[t]
+		local co = table.remove(wait_tbl[t] or {}, 1)
 		if co then
-			wait_tbl[t] = nil
 			resume(co, true, unpack(result, 2, len))
 		else
+			wait_tbl[t] = nil
 			local func = listen_tbl[t]
 			if func then
 				local func_co = coroutine.create(func)
@@ -140,7 +141,7 @@ do
 
 	function server.halt(v)
 		halt = v
-		
+
 		while not halt do
 			local result = table.remove(msg_tbl, 1)
 			if not result then
@@ -159,8 +160,10 @@ do
 
 		local tbl = wait_tbl
 		wait_tbl = {}
-		for _,co in pairs(tbl) do
-			resume(co, false)
+		for _, co_tbl in pairs(tbl) do
+			for _, co in pairs(co_tbl) do
+				resume(co, false)
+			end
 		end
 		LERR("网络异常，请求失败！")
 	end
@@ -175,7 +178,8 @@ do
 	end
 
 	local function do_wait(t)
-		wait_tbl[t] = coroutine.running()
+		wait_tbl[t] = wait_tbl[t] or {}
+		table.insert(wait_tbl[t], coroutine.running())
 		return check_result(coroutine.yield())
 	end
 
