@@ -39,7 +39,6 @@ add_package(IsLobby and "Lobby" or "Simple")
 add_package(MainFloder)
 
 add_package("Custom")
-settings = require "custom_settings"
 
 local game_cfg = require "game_cfg"
 
