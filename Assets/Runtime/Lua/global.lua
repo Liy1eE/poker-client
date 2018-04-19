@@ -371,3 +371,5 @@ function UI.ShareScreen(transform, path, ...)
         ShareScreenShot(unpack(param, 1, table.maxn(param)))
     end)
 end
+
+function UI.ComputeCash() end

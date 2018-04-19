@@ -32,6 +32,7 @@ return function(func)
         local arg = {...}
         local len = select("#", ...) + 1
         arg[len] = function(...)
+            -- 调用恢复
             assert(called == false)
             called = true
             if co == nil then
@@ -43,6 +44,7 @@ return function(func)
             end
         end
 
+        -- 参数加长
         func(unpack(arg, 1, len))
 
         if ret then

@@ -19,7 +19,7 @@ local start = coroutine.wrap(function()
     local game_cfg = require "game_cfg"
     
     SocketManager.HOST = "localhost"
-    SocketManager.PORT = 9999
+    SocketManager.PORT = 8888
     
     local player_data = require "login"()
     
